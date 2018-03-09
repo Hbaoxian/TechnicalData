@@ -22,7 +22,8 @@ public class LoadFileController {
 
     void downloadAction() {
 
-        //下载代码
+        //下载excel代码
+        /*
         HSSFWorkbook * wb ;
         String agent = request.getHeader("User-Agent");
         outputStream = response.getOutputStream();
@@ -34,7 +35,7 @@ public class LoadFileController {
         response.setCharacterEncoding("utf-8");
         wb.write(outputStream);
         outputStream.flush();
-
+        */
     }
 
     /**
@@ -45,6 +46,7 @@ public class LoadFileController {
 
     void  convert(){
 
+        /* excel转为文件存储
         HSSFWorkbook * book ;
         long time = System.currentTimeMillis();
         //文件存储路径
@@ -56,6 +58,8 @@ public class LoadFileController {
             e1.printStackTrace();
         }
         // 流写完之后就存储在系统下
+        */
+
     }
 
     /**
@@ -87,14 +91,15 @@ public class LoadFileController {
 
 
 
-
+        /* 又拍云上传代码
         UpYun upYun = new UpYun(workSpace,account,password);
         upYun.setTimeout(60);
         upYun.setApiDomain(UpYun.ED_AUTO);
-        /** systemPath 文件存储当前系统的路径*/
-        /** path 文件存储又拍云的路径*/
+         systemPath 文件存储当前系统的路径
+        path 文件存储又拍云的路径
         File file = new File(systemPath);
         boolean isSuccess =  upYun.writeFile(path,file);
+        */
 
         /** 又拍云下载http生成方式
          *
@@ -143,8 +148,7 @@ public class LoadFileController {
             通过以上4个对象，就可以拥有一个完整的excel
 
         */
-
-
+        /* 生成excel
         HSSFWorkbook wb = new HSSFWorkbook();
         HSSFSheet sheet = wb.createSheet("index");
 
@@ -157,7 +161,7 @@ public class LoadFileController {
         cell.setCellValue("日期");
         cell.setCellStyle(style);
 
-
+        */
     }
 
 
