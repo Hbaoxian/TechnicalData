@@ -623,6 +623,7 @@ public class TnterviewQuestions {
 
                 61 spring的controller是单例还是多例，怎么保证并发的安全
 
+
                 62 Dubbo的底层实现原理和机制
 
                 63 描述一个服务从发布到被消费的详细过程
@@ -639,8 +640,13 @@ public class TnterviewQuestions {
                 71    Zookeeper的用途，选举的原理是什么？
                 72   数据的垂直拆分水平拆分。
                 73  zookeeper原理和适用场景
+
                 74 zookeeper watch机制
-                75   redis/zk节点宕机如何处理
+
+
+                75 redis/zk节点宕机如何处理
+                    故障转译，主从切换
+
                 76 分布式集群下如何做到唯一序列号
                 77 如何做一个分布式锁
                 78 用过哪些MQ，怎么用的，和其他mq比较有什么优缺点，MQ的连接是线程安全的吗
@@ -648,7 +654,15 @@ public class TnterviewQuestions {
 
 
                 79  MQ系统的数据如何保证不丢失
+
                 80  列举出你能想到的数据库分库分表策略；分库分表后，如何解决全表查询的问题。
+                    1 业务拆分
+                    2 主从复制，读写分离
+                    3 数据分库分表
+                    4 分表策略 （100张表， 去100取余，根据id来取）
+                    5 分表也不能解决i/O问题，进行分库能解决部分i/o
+
+
 
                 81   海量url去重类问题（布隆过滤器）
 
