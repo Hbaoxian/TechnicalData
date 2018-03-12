@@ -2,9 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9f4e6c68-a14b-440d-a4e8-e1f4e73e9ce6" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/src/main/hbx.javanowledge.collect/loadFile/ThreadExctor.java" afterPath="$PROJECT_DIR$/web/src/main/hbx.javanowledge.collect/loadFile/ThreadExctor.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/src/main/hbx.javanowledge.collect/loadFile/TnterviewQuestions.java" afterPath="$PROJECT_DIR$/web/src/main/hbx.javanowledge.collect/loadFile/TnterviewQuestions.java" />
     </list>
     <ignored path="$PROJECT_DIR$/web/target/" />
@@ -34,8 +32,8 @@
       <file leaf-file-name="TnterviewQuestions.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/web/src/main/hbx.javanowledge.collect/loadFile/TnterviewQuestions.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="411">
-              <caret line="593" column="15" lean-forward="false" selection-start-line="593" selection-start-column="15" selection-end-line="593" selection-end-column="15" />
+            <state relative-caret-position="626">
+              <caret line="654" column="15" lean-forward="true" selection-start-line="654" selection-start-column="15" selection-end-line="654" selection-end-column="15" />
               <folding />
             </state>
           </provider>
@@ -687,12 +685,12 @@
       <workItem from="1520327814663" duration="2420000" />
       <workItem from="1520593664252" duration="3099000" />
       <workItem from="1520675177071" duration="8063000" />
-      <workItem from="1520820596868" duration="9994000" />
+      <workItem from="1520820596868" duration="10566000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="30631000" />
+    <option name="totallyTimeSpent" value="31203000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1092" y="23" width="1462" height="1402" extended-state="0" />
@@ -710,7 +708,7 @@
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Properties" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3504747" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3504673" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2246479" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -1731,8 +1729,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/web/src/main/hbx.javanowledge.collect/loadFile/TnterviewQuestions.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="411">
-          <caret line="593" column="15" lean-forward="false" selection-start-line="593" selection-start-column="15" selection-end-line="593" selection-end-column="15" />
+        <state relative-caret-position="626">
+          <caret line="654" column="15" lean-forward="true" selection-start-line="654" selection-start-column="15" selection-end-line="654" selection-end-column="15" />
           <folding />
         </state>
       </provider>
