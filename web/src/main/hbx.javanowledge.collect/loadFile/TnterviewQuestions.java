@@ -400,7 +400,250 @@ public class TnterviewQuestions {
 
 
 
-     *
+
+
+
+
+            24 新生带内存分配比例：
+                 -Xms设置堆的最小空间大小。
+                 -Xmx设置堆的最大空间大小。
+                 -XX:NewSize设置新生代最小空间大小。
+                 -XX:MaxNewSize设置新生代最大空间大小。
+                 -XX:PermSize设置永久代最小空间大小。
+                 -XX:MaxPermSize设置永久代最大空间大小。
+                 -Xss设置每个线程的堆栈大小。
+
+
+
+            25  深入分析了Classloader，双亲委派机制
+                ClassLoader概念：ClassLoader是Java提供的基础的类加载机制，负责将JDK，第三方的类包和用户写的Java代码，
+                                根据代码中组织方式和依赖关系，按需将class动态加载到内存中，以便JVM执行java程序。
+
+                ClassLoader：JDK中自带自带有三种类型的classloader，分别是BootStrap ClassLoader, ExtClassLoader，AppClassLoader
+                             BootStrapClassLoader，加载JDK的核心类库，它是Java中最顶层的加载器，默认加载JAVA_HOME/jre/lib下的jar包。
+                             ExtClassLoader， 扩展加载器，加载JDK中的扩展包，默认加载JAVA_HOME/jre/lib/ext/目下的所有jar。
+                             AppClassLoader，系统类加载器，负责加载应用程序classpath目录下的所有jar和class文件。
+
+                ClassLoader 类加载机制
+                            默认JDK中使用双亲委派的机制来搜索加载类的，也就是说，每个classloader都有一个父级classloader，
+                            当加载一个类时，子classloader会优先委托他的父级classloader加载该类，如果父类未加载到该类，然
+                            后自己才搜索加载该类。这个过程是由上至下依次检查的。首先由最顶层的类加载器Bootstrap ClassLoader
+                            试图加载，如果没有找到，然后传递Extension ClassLoader搜索加载，如果还没有找到，就会使用System
+                            ClassLoader进行搜索查找
+                为什么使用双亲委派的规则加载类：是为了安全考虑，class优先被父类加载，这样就能保证核心的JDK类库，不会被替换。想象一下，如果我们经常使用java.lang.String 被替换掉，这样就会造成很大的安全隐患。而这种委派机制可以避免这种情况。因为核心的类库，都在启动时被BootstrapClassloader 加载。我们无法自定义String替代核心库的实现。
+
+            26 JVM的编译优化
+
+
+
+
+
+            27  对Java内存模型的理解，以及其在并发中的应用?
+
+            28  指令重排序，内存栅栏等？
+
+            29   OOM错误，stackoverflow错误，permgen space错误
+
+                 栈溢出(StackOverflowError)  栈溢出抛出java.lang.StackOverflowError错误，出现此种情况是因为方法运行的时候栈的深度超过了虚拟机容许的最大深度所致。
+                 堆溢出(OutOfMemoryError:java heap space)    堆内存溢出的时候，虚拟机会抛出java.lang.OutOfMemoryError:java heap space,出现此种情况的时候，
+                                                            我们需要根据内存溢出的时候产生的dump文件来具体分析（需要增加-XX:+HeapDumpOnOutOfMemoryErrorjvm启动参数）。
+                                                            出现此种问题的时候有可能是内存泄露，也有可能是内存溢出了。
+                                                            如果内存泄露，我们要找出泄露的对象是怎么被GC ROOT引用起来，然后通过引用链来具体分析泄露的原因。
+                                                            如果出现了内存溢出问题，这往往是程序本生需要的内存大于了我们给虚拟机配置的内存，这种情况下，我们可以采用调大-Xmx来解决这种问题。
+
+                 持久带溢出(OutOfMemoryError: PermGen space)  Hotspot jvm通过持久带实现了Java虚拟机规范中的方法区，而运行时的常量池就是保存在方法区中的，因此持久带溢出有可能是运行时常量池溢出，
+                                                            也有可能是方法区中保存的class对象没有被及时回收掉或者class信息占用的内存超过了我们配置。当持久带溢出的时候抛出
+                                                            java.lang.OutOfMemoryError: PermGen space。
+                 OOM错误： 内存错误
+
+
+            30 JVM常用参数 ？ 暂时不用记录
+
+
+
+            31 tomcat结构，类加载器流程
+
+            32  volatile的语义，它修饰的变量一定线程安全吗
+            33  g1和cms区别,吞吐量优先和响应优先的垃圾收集器选择
+            34  说一说你对环境变量classpath的理解？如果一个类不在classpath下，为什么会抛出ClassNotFoundException异常，如果在不改变这个类路径的前期下，怎样才能正确加载这个类？
+            35  说一下强引用、软引用、弱引用、虚引用以及他们之间和gc的关系
+
+
+
+            36  ThreadLocal
+                ThreadLocal是一个关于创建线程局部变量的类。
+                 Global 意思是在当前线程中，任何一个点都可以访问到ThreadLocal的值。
+                 Local 意思是该线程的ThreadLocal只能被该线程访问，一般情况下其他线程访问不到。
+                 为ThreadLocal设置默认的get初始值，需要重写initialValue方法，下面是一段代码，我们将默认值修改成了线程的名字
+                 原理：实际上ThreadLocal的值是放入了当前线程的一个ThreadLocalMap实例中，所以只能在本线程中访问，其他线程无法访问。
+                 是否在栈上： 其实不是，因为ThreadLocal实例实际上也是被其创建的类持有（更顶端应该是被线程持有）。而ThreadLocal的值其实也是被线程实例持有。
+                            它们都是位于堆上，只是通过一些技巧将可见性修改成了线程可见。
+
+
+            37 Synchronized和Lock的区别
+
+                区别： 1 synchronized 是关键字，在jvm层面控制， 而lock是一个类，需要手动new lock和unlock
+                      2 锁的获取，如果A线程占用，或者阻塞，则B线程一直等待  而lock的话则会去尝试获取
+                      3 锁的状态， synchronized无法判断， lock可以判断
+                      4 类型：synchronized可重入，不可中断，非公平  lock是可重入，可判断，可公平
+
+
+                lock实现：    1、调用lock方法，会先进行cas操作看下可否设置同步状态1成功，如果成功执行临界区代码
+                             2、如果不成功获取同步状态，如果状态是0那么cas设置为1.
+                             3、如果同步状态既不是0也不是自身线程持有会把当前线程构造成一个节点。
+                             4、把当前线程节点CAS的方式放入队列中，行为上线程阻塞，内部自旋获取状态。
+                             5、线程释放锁，唤醒队列第一个节点，参与竞争。重复上述。
+
+            38   synchronized 的原理
+                 普通同步方法：锁是当前实例对象
+                 静态同步方法：锁是当前类的Class对象
+                 同步方法块：锁是Synchronized括号里配置的对象
+                 获取对象monitor锁
+
+                 锁的状态： 1 偏向锁： 当一个线程访问同步块并获取锁时，会在对象头和栈帧中的锁记录里存储锁偏向的线程ID，
+                                    以后该线程在进入和退出同步块时不需要花费CAS操作来加锁和解锁，而只需简单的测试
+                                    一下对象头的Mark Word里是否存储着指向当前线程的偏向锁，如果测试成功，表示线程
+                                    已经获得了锁，如果测试失败，则需要再测试下Mark Word中偏向锁的标识是否设置成1
+                                    （表示当前是偏向锁），如果没有设置，则使用CAS竞争锁，如果设置了，则尝试使用CAS
+                                    将对象头的偏向锁指向当前线程（此时会引发竞争，偏向锁会升级为轻量级锁
+
+             38： synchronized 的原理，什么是自旋锁，偏向锁，轻量级锁，什么叫可重入锁，什么叫公平锁和非公平锁
+
+
+
+             39    concurrenthashmap具体实现及其原理
+
+                      ConcurrentHashMap 数据结构为一个 Segment 数组，Segment 的数据结构为 HashEntry 的数组，而 HashEntry 存的是我们的键值对，可以构成链表。
+
+                     在实际的应用中，散列表一般的应用场景是：除了少数插入操作和删除操作外，绝大多数都是读取操作，而且读操作在大多数时候都是成功的。正是基于这个前提，ConcurrentHashMap 针对读操作做了大量的优化。通过 HashEntry 对象的不变性和用 volatile 型变量协调线程间的内存可见性，使得 大多数时候，读操作不需要加锁就可以正确获得值。这个特性使得 ConcurrentHashMap 的并发性能在分离锁的基础上又有了近一步的提高。
+
+                     ConcurrentHashMap 是一个并发散列映射表的实现，它允许完全并发的读取，并且支持给定数量的并发更新。相比于 HashTable 和用同步包装器包装的 HashMap（Collections.synchronizedMap(new HashMap())），ConcurrentHashMap 拥有更高的并发性。在 HashTable 和由同步包装器包装的 HashMap 中，使用一个全局的锁来同步不同线程间的并发访问。同一时间点，只能有一个线程持有锁，也就是说在同一时间点，只能有一个线程能访问容器。这虽然保证多线程间的安全并发访问，但同时也导致对容器的访问变成串行化的了。
+
+                     ConcurrentHashMap 的高并发性主要来自于三个方面：
+
+                     用分离锁实现多个线程间的更深层次的共享访问。
+                     用 HashEntery 对象的不变性来降低执行读操作的线程在遍历链表期间对加锁的需求。
+                     通过对同一个 Volatile 变量的写 / 读访问，协调不同线程间读 / 写操作的内存可见性。
+                     使用分离锁，减小了请求 同一个锁的频率。
+
+                     通过 HashEntery 对象的不变性及对同一个 Volatile 变量的读 / 写来协调内存可见性，使得 读操作大多数时候不需要加锁就能成功获取到需要的值。由于散列映射表在实际应用中大多数操作都是成功的 读操作，所以 2 和 3 既可以减少请求同一个锁的频率，也可以有效减少持有锁的时间。通过减小请求同一个锁的频率和尽量减少持有锁的时间 ，使得 ConcurrentHashMap 的并发性相对于 HashTable 和用同步包装器包装的 HashMap有了质的提高。
+
+            40      用过哪些原子类，他们的参数以及原理是什么
+
+                        基础数据类型原子操作：
+                            AtomicBoolean：用来更新布尔型变量；
+                            AtomicInteger：用来更新整型变量；
+                            AtomicLong：用来更新长整型变量。
+                        原子数组更新：
+                             AtomicIntegerArray：用来更新整型数组里的元素；
+                             AtomicLongArray：用来更新长整型数组里的元素；
+                             AtomicReferenceArray：用来更新引用类型数组里的元素。
+
+                        引用更新类型：
+                             AtomicReference：用于更新引用类型，可以理解为更新Object；
+                             AtomicMarkableReference：用于更新带有标记位的引用类型；
+                             AtomicStampedReference：用于更新带有版本号的引用类型，该类将版本号与引用类型关联起来，可以解决使用CAS进行原子更新时可能会出现的ABA问题。
+
+                        属性原子操作：
+                             AtomicIntegerFieldUpdater：用于更新Object的整型属性；
+                             AtomicLongFieldUpdater：用于更新Object的长整型属性；
+                             AtomicReferenceFieldUpdater：用于更新Object的引用类型属性。
+
+            41 cas是什么，他会产生什么问题
+                    比较并替换，原子操作大多数都是使用这个方式
+                    添加版本号
+
+
+            42 并发队列ConcurrentLinkedQueue与阻塞队列LinkedBlockingQueue的区别
+
+                  LinkedBlockingQueue
+                  由于LinkedBlockingQueue实现是线程安全的，实现了先进先出等特性，是作为生产者消费者的首选，
+                  LinkedBlockingQueue 可以指定容量，也可以不指定，不指定的话，默认最大是Integer.MAX_VALUE，
+                  其中主要用到put和take方法，put方法在队列满的时候会阻塞直到有队列成员被消费，take方法在队列空
+                  的时候会阻塞，直到有队列成员被放进来。
+
+
+                 ConcurrentLinkedQueue
+                 ConcurrentLinkedQueue是Queue的一个安全实现．Queue中元素按FIFO原则进行排序．采用CAS操作，
+                 来保证元素的一致性
+
+                 对比锁机制的实现，使用无锁机制的难点在于要充分考虑线程间的协调。简单的说就是多个线程对内部数据结构进
+                 行访问时，如果其中一个线程执行的中途因为一些原因出现故障，其他的线程能够检测并帮助完成剩下的操作。这
+                 就需要把对数据结构的操作过程精细的划分成多个状态或阶段，考虑每个阶段或状态多线程访问会出现的情况。
+                 ConcurrentLinkedQueue有两个volatile的线程共享变量：head，tail。要保证这个队列的线程安全就是
+                保证对这两个Node的引用的访问（更新，查看）的原子性和可见性，由于volatile本身能够保证可见性，所以就是对其修改的原子性要被保证。
+                 另外还说一下，ConcurrentLinkedQueue的size()是要遍历一遍集合的，所以尽量要避免用size而改用isEmpty()，以免性能过慢。
+
+             43 简述AQS的实现原理
+
+
+
+             44 countdowlatch和cyclicbarrier
+
+                countdowlatch： CountDownLatch允许一个或多个线程等待其他线程完成操作。
+                CyclicBarrier： 让一组线程到达一个同步点后再一起继续运行，在其中任意一个线程未达到同步点，其他到达的线程均会被阻塞。
+
+                 CountDownLatch：一个或者多个线程，等待其他多个线程完成某件事情之后才能执行；
+                 CyclicBarrier：多个线程互相等待，直到到达同一个同步点，再继续一起执行。
+
+                 CountDownLatch是计数器，线程完成一个记录一个，只不过计数不是递增而是递减，而CyclicBarrier更像是一个阀门，需要所有线程都到达，阀门才能打开，然后继续执行。
+
+
+               45  concurrent包中使用过哪些类？分别说说使用在什么场景？为什么要使用？
+
+               46 LockSupport工具
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            28
+
+
      * */
 
 
