@@ -591,29 +591,105 @@ public class TnterviewQuestions {
 
                45  concurrent包中使用过哪些类？分别说说使用在什么场景？为什么要使用？
 
-               46 LockSupport工具
 
-               47 Condition接口及其实现原理
+
+
+               46 LockSupport工具
+                    1 阻塞线程
+                    2 唤醒线程
+                    注：synchronzed致使线程阻塞，线程会进入到BLOCKED状态，而调用LockSupprt方法阻塞线程会致使线程进入到WAITING状态。
+                        由synchronzed阻塞的线程加入到同步队列，再次被唤醒的线程是随机从同步队列中选择的，而LockSupport.unpark(thread)可以指定线程对象唤醒指定的线程。
+
+
+
+
+
+            47 Condition接口及其实现原理
+                  Condtion依赖于lock锁，获取其对象只能通过lock的newCondition接口，在满足条件的情况下，当前线程获得锁，进行操作，
+                  当条件不满足，condtion.wait进入等待状态， 当前线程释放锁，并且让等待的队列进入同步队列，当condtion释放singal信号
+                  的时候，当前线程获取锁，并进去唤醒状态，处理问题
+                  常见的生产者消费者模式可以有Condtion的帮助实现
+
 
                 48 Fork/Join框架的理解
+
+
 
                 49 jdk8的parallelStream的理解
 
                 50 分段锁的原理,锁力度减小的思考
 
+
+
+
                 51 Spring AOP与IOC的实现原理
+                    IOC：控制反转        beans包实现的核心关注点是BeanFactory，BeanFactory也叫作Bean容器，顾名思义，是用来盛放、管理bean的。
+                                       context包实现的核心关注是ApplicationContext，ApplicationContext也是用来获取Bean的，但是它更高层，它的面向用户是Spring的使用者，而BeanFactory面向的用户更多是Spring开发者。BeanFactory定义了Bean初始化的流程，ApplicationContext定义了从XML读取，到Bean初始化，再到使用的过程。
+                    AOP：切面编程,AOP（Aspect Orient Programming），我们一般称为面向方面（切面）编程，作为面向对象的一种补充，用于处理系统中分布于各个模块的横切关注点，比如事务管理、日志、缓存等等。AOP实现的关键在于AOP框架自动创建的AOP代理，AOP代理主要分为静态代理和动态代理，静态代理的代表为AspectJ；而动态代理则以Spring AOP为代表。本文会分别对AspectJ和Spring AOP的实现进行分析和介绍。
+                         动态代理  Spring的动态代理有两种：一是JDK的动态代理；另一个是cglib动态代理（通过修改字节码来实现代理）。
+                         before 目标方法执行前执行，前置通知
+                         after 目标方法执行后执行，后置通知
+                         after returning 目标方法返回时执行 ，后置返回通知
+                         after throwing 目标方法抛出异常时执行 异常通知
+                         around 在目标函数执行中执行，可控制目标函数是否执行，环绕通知
+
+
+
+
+
 
                 52 Spring的beanFactory和factoryBean的区别
+                        beanFactory：是spring的核心容器
+                        factoryBean: 是用来获取动态代理bean对象
 
-                53 为什么CGlib方式可以对接口实现代理？
 
-                54 RMI与代理模式
+
+                53   为什么CGlib方式可以对接口实现代理？
+                        一、为什么不直接都使用JDK动态代理：JDK动态代理只能代理接口类，所以很多人设计架构的时候会使用XxxService, XxxServiceImpl的形式设计，一是让接口和实现分离，二是也有助于代理。
+                        二、为什么不都使用Cgilb代理：因为JDK动态代理不依赖其他包，Cglib需要导入ASM包，对于简单的有接口的代理使用JDK动态代理可以少导入一个包。
+                             CGLib采用了非常底层的字节码技术，其原理是通过字节码技术为一个类创建子类，并在子类中采用方法拦截的技术拦截所有父类方法的调用，顺势织入横切逻辑
+
+                54   RMI与代理模式
 
                 55   Spring的事务隔离级别，实现原理
+                        本质：是数据库对事物的只能，能提高crud的commit回滚
+                             配置文件开启注解驱动，在相关的类和方法上通过注解@Transactional标识。
+                             spring 在启动的时候会去解析生成相关的bean，这时候会查看拥有相关注解的类和方法，并且为这些类和方法生成代理，并根据@Transaction的相关参数进行相关配置注入，这样就在代理中为我们把相关的事务处理掉了（开启正常提交事务，异常回滚事务）。
+                             真正的数据库层的事务提交和回滚是通过binlog或者redo log实现的。
+                        隔离级别：
+                             ISOLATION_DEFAULT	这是个 PlatfromTransactionManager 默认的隔离级别，使用数据库默认的事务隔离级别。另外四个与 JDBC 的隔离级别相对应。
+                             ISOLATION_READ_UNCOMMITTED	这是事务最低的隔离级别，它充许另外一个事务可以看到这个事务未提交的数据。这种隔离级别会产生脏读，不可重复读和幻像读。
+                             ISOLATION_READ_COMMITTED	保证一个事务修改的数据提交后才能被另外一个事务读取。另外一个事务不能读取该事务未提交的数据。
+                             ISOLATION_REPEATABLE_READ	这种事务隔离级别可以防止脏读，不可重复读。但是可能出现幻像读。
+                             ISOLATION_SERIALIZABLE	这是花费最高代价但是最可靠的事务隔离级别。事务被处理为顺序执行。
+
+
+
 
                 56 对Spring的理解，非单例注入的原理？它的生命周期？循环注入的原理，aop的实现原理，说说aop中的几个术语，它们是怎么相互工作的？
 
                 57 Mybatis的底层实现原理
+                   1 使用interface面向service交互
+                   2 使用接口动态生成一个mapper实例，根据方法和参数，可以获取到statment,底层还是通过sqlsession来与数据库进行交互
+                   3 使用传入的参数动态生成sql语句，获取数据并转移成java数据类型
+                   4 事物管理机制
+                   5 链接池管理机制
+                   6 缓存机制
+                   7 sql的配置方式，使用xml方式或者注解的方式
+                     相关类：
+                     SqlSession：作为MyBatis工作的主要顶层API，表示和数据库交互的会话，完成必要数据库增删改查功能；
+                     Executor：MyBatis执行器，是MyBatis 调度的核心，负责SQL语句的生成和查询缓存的维护；
+                     StatementHandler：封装了JDBC Statement操作，负责对JDBC statement 的操作，如设置参数、将Statement结果集转换成List集合。
+                     ParameterHandler：负责对用户传递的参数转换成JDBC Statement 所需要的参数；
+                     ResultSetHandler：负责将JDBC返回的ResultSet结果集对象转换成List类型的集合；
+                     TypeHandler：负责java数据类型和jdbc数据类型之间的映射和转换；
+                     MappedStatement：MappedStatement维护了一条<select|update|delete|insert>节点的封装；
+                     SqlSource：负责根据用户传递的parameterObject，动态地生成SQL语句，将信息封装到BoundSql对象中，并返回；
+                     BoundSql：表示动态生成的SQL语句以及相应的参数信息；
+                     Configuration：MyBatis所有的配置信息都维持在Configuration对象之中；
+
+
+
 
                 58 MVC框架原理，他们都是怎么做url路由的
 
@@ -639,7 +715,7 @@ public class TnterviewQuestions {
 
 
 
-     60 quartz和timer对比
+                 60 quartz和timer对比
                      Timer类的核心是它的两个内部类TaskThread和TaskQueue。
                      TimerThread线程在start方法启动后，就会开始不断轮询，每次轮询都会获取TaskQueue中第一个TimerTask（ 执行时间最小的TimerTask），判断当前是否已到执行时间：
                      如当前时间大于或等于执行时间，则执行TimerTask；
@@ -654,9 +730,12 @@ public class TnterviewQuestions {
 
 
                 61 spring的controller是单例还是多例，怎么保证并发的安全
+                    单列， 尽量别使用成员变量，会重复使用
 
 
                 62 Dubbo的底层实现原理和机制
+
+
 
                 63 描述一个服务从发布到被消费的详细过程
 
