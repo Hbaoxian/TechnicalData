@@ -618,8 +618,40 @@ public class TnterviewQuestions {
                 58 MVC框架原理，他们都是怎么做url路由的
 
                 59 spring boot特性，优势，适用场景等
+                       场景： SSO，分布式文件系统，微服务使用等等，在企业版应用中，这些都是非常顶用的。如果硬说有坑的话，就是服务多了，服务部署和运维管理必须要上一个档次，否则就会显得混乱起来。
+                        特性：（1）遵循“习惯优于配置”的原则，使用Spring Boot只需要很少的配置，大部分的时候我们直接使用默认的配置即可；
+                             （2）项目快速搭建，可以无需配置的自动整合第三方的框架；
+                             （3）可以完全不使用XML配置文件，只需要自动配置和Java Config；
+                             （4）内嵌Servlet容器，降低了对环境的要求，可以使用命令直接执行项目，应用可用jar包执行：java -jar；
+                             （5）提供了starter POM, 能够非常方便的进行包管理, 很大程度上减少了jar hell或者dependency hell；
+                             （6）运行中应用状态的监控；
+                             （7）对主流开发框架的无配置集成；
+                             （8）与云计算的天然继承；
+                        核心功能：(1)独立运行的项目
+                                (2) 内嵌servlet
+                                (3) 提供starter简化Manen配置
+                                (4) 自动配置Spring
+                                (5) 应用监控
+                                (6) 无代码生成和XML配置
 
-                60 quartz和timer对比
+
+
+
+
+
+     60 quartz和timer对比
+                     Timer类的核心是它的两个内部类TaskThread和TaskQueue。
+                     TimerThread线程在start方法启动后，就会开始不断轮询，每次轮询都会获取TaskQueue中第一个TimerTask（ 执行时间最小的TimerTask），判断当前是否已到执行时间：
+                     如当前时间大于或等于执行时间，则执行TimerTask；
+                     如未到，则会休眠一段时间（时长=任务执行时间-当前时间）。
+                     执行后，判定该task是否需要重复执行，如需要，则重置该task的执行时间，重新放入TaskQueue中（放入后会自动排序）。
+                     Timer工具类
+                     优点：JDK本身就自带该工具类，无需第三方依赖，只需实现TimerTask类即可使用Timer进行调度配置，使用起来简单方便。
+                     缺点：Timer中所有的任务都一个TaskThread线程来调度和执行，任务的执行方式是串行的，如果前一个任务发生延迟或异常会影响到后续任务的执行。
+
+                    Quartz同ScheduledThreadPoolExecutor一样也是基于线程池进行任务调度的，它默认使用org.quartz.simpl.SimpleThreadPool来作为线程池，在调用scheduleJob()方法会将Job和Trigger存储在JobStore(从存储介质中获取触发器，存储介质可以是内存也可以是数据库)中，然后通知调度线程（QuartzSchedulerThread）从JobStore中获取即将被触发的触发器，到达触发时间后分配线程去执行触发器对应的Job任务。
+
+
 
                 61 spring的controller是单例还是多例，怎么保证并发的安全
 
@@ -823,12 +855,6 @@ public class TnterviewQuestions {
                          allkeys-lru：从数据集（server.db[i].dict）中挑选最近最少使用的数据淘汰
                          allkeys-random：从数据集（server.db[i].dict）中任意选择数据淘汰
                          no-enviction（驱逐）：禁止驱逐数据
-
-
-
-
-
-
 
 
 
